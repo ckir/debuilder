@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  nodejs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -45,3 +45,27 @@ jobs:
           latest_version=${{ steps.env-setup.outputs.nodejs_latest }}
           echo "$latest_version"
 
+  python:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Get Python's latest available version
+        id: env-setup
+        run: |
+          version=$(wget -qO- https://www.python.org | grep -oE 'Latest: .*[0-9]+\.[0-9]+\.[0-9]+' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          # Check if version is in semantic versioning format
+          if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Python's latest available version found is: $version"
+            echo "python_latest=$version" >> $GITHUB_OUTPUT
+          else
+            echo "Python version [$version] is not in semantic versioning format"
+            exit 1
+          fi
+
+      - name: Check if package already exists
+        run: |
+          latest_version=${{ steps.env-setup.outputs.python_latest }}
+          echo "$latest_version"
