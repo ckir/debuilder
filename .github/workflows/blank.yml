@@ -25,23 +25,23 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Get NodeJS latest available version
+        id: env-setup
+        run: |
+          version=$(curl -sL https://nodejs.org/en/download/releases/ | grep -oP 'v\d+\.\d+\.\d+' | head -1)
+          version="${version:1}"
+          # Check if version is in semantic versioning format
+          if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "NodeJS latest available version found is: $version"
+            echo "nodejs_latest=$version" >> $GITHUB_OUTPUT
+          else
+            echo "Version [$version] is not in semantic versioning format"
+            exit 1
+          fi
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Check if package already exists
         run: |
-          LATEST_VERSION=$(curl -sL https://nodejs.org/en/download/releases/ | grep -oP 'v\d+\.\d+\.\d+' | head -1)
-          LATEST_VERSION="${LATEST_VERSION:1}"
-          echo "NodeJS latest available version found is: $LATEST_VERSION"
-          INSTALL_DIR="nodejs_$LATEST_VERSION-1_i386"
-          PACKAGE_NAME="$INSTALL_DIR.deb"
-          BUILD_STORE="https://ckir-debuilds.s3.eu-west-2.amazonaws.com/nodejs"
-          S3_STORE="s3://ckir-debuilds/nodejs/"
+          latest_version=${{ steps.env-setup.outputs.nodejs_latest }}
+          echo "$latest_version"
 
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $BUILD_STORE/$PACKAGE_NAME)
-          if [ $HTTP_STATUS == "200" ]; then
-              echo "$PACKAGE_NAME already exists at [$BUILD_STORE]. Build aborted"
-              exit 0
-          fi
