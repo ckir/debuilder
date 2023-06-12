@@ -39,11 +39,15 @@ jobs:
             exit 1
           fi
 
-      # Runs a set of commands using the runners shell
-      - name: Check if package already exists
+      - name: Build if package not exists
         run: |
           latest_version=${{ steps.env-setup.outputs.nodejs_latest }}
-          echo "$latest_version"
+          package_name="nodejs_$latest_version-1_i386.deb"
+          http_code=$(curl -s -o /dev/null -w "%{http_code}" https://ckir-debuilds.s3.eu-west-2.amazonaws.com/nodejs/$package_name)
+          if [ $http_code == "200" ]; then
+            echo "$package_name already exists. Build aborted"
+            exit 0
+          fi
 
   python:
     runs-on: ubuntu-latest
