@@ -47,7 +47,7 @@ jobs:
             echo "$package_name already exists. Build aborted"
             exit 0
           fi
-          docker build -t image_nodejs $GITHUB_WORKSPACE/builders/nodejs
+          DOCKER_BUILDKIT=1 docker build -t image_nodejs $GITHUB_WORKSPACE/builders/nodejs
           docker run -e AWS_REGION=${{ secrets.AWS_REGION }} -e AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} -e AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} image_nodejs /opt/src/scripts/setup.sh
 
   python:
