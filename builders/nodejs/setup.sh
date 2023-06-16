@@ -18,7 +18,7 @@ fi
 
 cd /Build
 echo "Updating installed packages"
-apt-get -qq update >/dev/null && apt-get -qq upgrade >/dev/null
+apt-get -qq update >/dev/null && apt-get -y -qq upgrade >/dev/null
 echo "Installed packages updated"
 
 echo "Installing build dependencies"
