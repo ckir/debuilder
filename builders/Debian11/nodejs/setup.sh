@@ -21,6 +21,23 @@ echo "Updating installed packages"
 apt-get -qq update >/dev/null && apt-get -qq upgrade >/dev/null
 echo "Installed packages updated"
 
+cat <<EOF >>/etc/apt/sources.list
+# Unstable
+deb http://ftp.debian.org/debian unstable main contrib non-free
+deb-src http://ftp.debian.org/debian unstable main contrib non-free
+
+# Testing
+deb http://ftp.debian.org/debian testing main contrib non-free
+deb-src http://ftp.debian.org/debian testing main contrib non-free
+
+# Experimental
+deb http://ftp.debian.org/debian experimental main contrib non-free
+deb-src http://ftp.debian.org/debian experimental main contrib non-free
+EOF
+echo "Updating Unstable/Testing/Experimental repos"
+apt-get -qq update >/dev/null
+echo "Unstable/Testing/Experimental updated"
+
 echo "Installing build dependencies"
 apt-get -y -qq build-dep nodejs > /dev/null
 echo "Build dependencies installed"

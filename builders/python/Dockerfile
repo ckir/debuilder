@@ -1,4 +1,4 @@
-FROM i386/debian
+FROM i386/debian:latest
 
 RUN apt-get -qq update \
     && apt-get install -y apt-utils \
