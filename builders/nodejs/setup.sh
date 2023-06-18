@@ -38,7 +38,7 @@ for f in $(find deps/openssl -type f -name '*.S'); do
 done
 
 make --silent -j$(nproc) > /dev/null
-make install DESTDIR=/Release/$INSTALL_DIR
+make altinstall DESTDIR=/Release/$INSTALL_DIR
 echo -e "\n\nBuild completed"
 
 echo -e "\nPackaging started"
