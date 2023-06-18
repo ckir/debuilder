@@ -30,7 +30,7 @@ tar -xzf node-v$LATEST_VERSION.tar.gz
 echo "Source download completed"
 
 cd node-v$LATEST_VERSION
-./configure --shared-zlib
+./configure --shared-zlib --with-intl=full-icu
 for f in $(find deps/openssl -type f -name '*.S'); do
     echo $f
     sed -i "s/%ifdef/#ifdef/" "$f"
