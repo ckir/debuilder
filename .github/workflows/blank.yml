@@ -27,7 +27,7 @@ jobs:
       - name: Get NodeJS latest available version
         id: env-setup
         run: |
-          apt -y -qq install html2text
+          sudo apt-get -y -qq install html2text
           version=$(curl -sL https://nodejs.org/download/release/latest/ | grep linux-x64.tar.gz | html2text | grep -oP 'node-v\K[0-9]+\.[0-9]+\.[0-9]+' | sed 's/-.*//')
           # Check if version is in semantic versioning format
           if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
