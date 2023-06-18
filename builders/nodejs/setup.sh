@@ -30,7 +30,7 @@ tar -xzf node-v$LATEST_VERSION.tar.gz
 echo "Source download completed"
 
 cd node-v$LATEST_VERSION
-./configure --shared-zlib --with-intl=full-icu
+./configure --shared-zlib
 for f in $(find deps/openssl -type f -name '*.S'); do
     echo $f
     sed -i "s/%ifdef/#ifdef/" "$f"
@@ -38,7 +38,7 @@ for f in $(find deps/openssl -type f -name '*.S'); do
 done
 
 make --silent -j$(nproc) > /dev/null
-make altinstall DESTDIR=/Release/$INSTALL_DIR
+make install DESTDIR=/Release/$INSTALL_DIR
 echo -e "\n\nBuild completed"
 
 echo -e "\nPackaging started"
