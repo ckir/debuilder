@@ -1,5 +1,6 @@
 FROM i386/debian:latest
 
+COPY sources.list /etc/apt/sources.list
 RUN apt-get -qq update \
     && apt-get install -y apt-utils \
     && apt-get install -y \

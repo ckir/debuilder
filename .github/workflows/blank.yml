@@ -27,8 +27,7 @@ jobs:
       - name: Get NodeJS latest available version
         id: env-setup
         run: |
-          version=$(curl -sL https://nodejs.org/en/download/releases/ | grep -oP 'v\d+\.\d+\.\d+' | head -1)
-          version="${version:1}"
+          version=$(curl -sL https://nodejs.org/download/release/latest/ | grep linux-x64.tar.gz | html2text | grep -oP 'node-v\K[0-9]+\.[0-9]+\.[0-9]+' | sed 's/-.*//')
           # Check if version is in semantic versioning format
           if echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
             echo "NodeJS latest available version found is: $version"
@@ -47,7 +46,7 @@ jobs:
             echo "$package_name already exists. Build aborted"
             exit 0
           fi
-          DOCKER_BUILDKIT=1 docker build -t image_nodejs $GITHUB_WORKSPACE/builders/nodejs
+          docker build -t image_nodejs $GITHUB_WORKSPACE/builders/nodejs
           docker run -e AWS_REGION=${{ secrets.AWS_REGION }} -e AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} -e AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} image_nodejs /opt/src/scripts/setup.sh
 
   python:
