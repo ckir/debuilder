@@ -2,7 +2,7 @@
 set -e
 
 export DEBIAN_FRONTEND=noninteractive
-LATEST_VERSION=$(wget -qO- https://www.python.org | grep -oE 'Latest: .*[0-9]+\.[0-9]+\.[0-9]+' | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+LATEST_VERSION=$(wget -qO- https://www.python.org | grep -oE 'Latest: .*[0-9]+\.[0-9]+\.[0-9]+' | grep -oP 'Python \K\d+\.\d+\.\d+')
 echo "Python's latest available version found is: $LATEST_VERSION"
 INSTALL_DIR="python_$LATEST_VERSION-1_i386"
 PACKAGE_NAME="$INSTALL_DIR.deb"
