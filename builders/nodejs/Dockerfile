@@ -13,8 +13,8 @@ RUN apt-get -qq update \
     dpkg-dev \
     html2text \
     devscripts
-wget http://http.us.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20230311_all.deb
-dpkg -r --force-depends ca-certificates
-dpkg -i ca-certificates_20230311_all.deb
+RUN wget http://http.us.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20230311_all.deb
+RUN dpkg -r --force-depends ca-certificates
+RUN dpkg -i ca-certificates_20230311_all.deb
 COPY ./setup.sh /opt/src/scripts/setup.sh
 RUN mkdir /Build /Release && chmod +x /opt/src/scripts/setup.sh
