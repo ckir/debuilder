@@ -43,7 +43,8 @@ for f in $(find deps/openssl -type f -name '*.S'); do
 done
 
 echo "STARTING BUILD"
-make --silent -j$(nproc) > /dev/null
+# make --silent -j$(nproc) > /dev/null
+make -j$(nproc)
 make install DESTDIR=/Release/$INSTALL_DIR
 echo -e "\n\nBuild completed"
 
