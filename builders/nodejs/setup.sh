@@ -35,13 +35,14 @@ echo "Source download completed"
 
 cd node-v$LATEST_VERSION
 #./configure --help
-./configure --ninja --shared-zlib
+./configure --ninja --shared-zlib --shared-openssl
 for f in $(find deps/openssl -type f -name '*.S'); do
     echo $f
     sed -i "s/%ifdef/#ifdef/" "$f"
     sed -i "s/%endif/#endif/" "$f"
 done
 
+echo "STARTING BUILD"
 make --silent -j$(nproc) > /dev/null
 make install DESTDIR=/Release/$INSTALL_DIR
 echo -e "\n\nBuild completed"
