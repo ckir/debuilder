@@ -21,6 +21,7 @@ apt-get -qq update >/dev/null && apt-get -y -qq upgrade >/dev/null
 echo "Installed packages updated"
 
 echo "Installing build dependencies"
+apt-get install python3 g++ make python3-pip ninja-build
 apt-get -y -qq build-dep nodejs > /dev/null
 echo "Build dependencies installed"
 
@@ -30,7 +31,8 @@ tar -xzf node-v$LATEST_VERSION.tar.gz
 echo "Source download completed"
 
 cd node-v$LATEST_VERSION
-./configure --shared-zlib
+./configure --help
+./configure --ninja --shared-zlib
 for f in $(find deps/openssl -type f -name '*.S'); do
     echo $f
     sed -i "s/%ifdef/#ifdef/" "$f"
