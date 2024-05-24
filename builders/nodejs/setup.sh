@@ -17,13 +17,13 @@ fi
 
 cd /Build
 echo "Updating installed packages"
+wget http://http.us.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20230311_all.deb
+dpkg -r --force-depends ca-certificates
+dpkg -i ca-certificates_20230311_all.deb
 apt-get -qq update >/dev/null && apt-get -y -qq upgrade >/dev/null
 echo "Installed packages updated"
 
 echo "Installing build dependencies"
-wget http://http.us.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20230311_all.deb
-dpkg -r --force-depends ca-certificates
-dpkg -i ca-certificates_20230311_all.deb
 apt-get install python3 g++ make python3-pip ninja-build
 apt-get -y -qq build-dep nodejs > /dev/null
 echo "Build dependencies installed"
