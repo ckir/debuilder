@@ -34,7 +34,7 @@ tar -xzf node-v$LATEST_VERSION.tar.gz
 echo "Source download completed"
 
 cd node-v$LATEST_VERSION
-./configure --help
+#./configure --help
 ./configure --ninja --shared-zlib
 for f in $(find deps/openssl -type f -name '*.S'); do
     echo $f
