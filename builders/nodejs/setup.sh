@@ -17,9 +17,6 @@ fi
 
 cd /Build
 echo "Updating installed packages"
-#wget http://http.us.debian.org/debian/pool/main/c/ca-certificates/ca-certificates_20230311_all.deb
-#dpkg -r --force-depends ca-certificates
-#dpkg -i ca-certificates_20230311_all.deb
 apt-get -qq update >/dev/null && apt-get -y -qq upgrade >/dev/null
 echo "Installed packages updated"
 
@@ -35,7 +32,7 @@ echo "Source download completed"
 
 cd node-v$LATEST_VERSION
 #./configure --help
-./configure --ninja --shared-zlib --shared-openssl
+./configure --ninja --shared-zlib
 for f in $(find deps/openssl -type f -name '*.S'); do
     echo $f
     sed -i "s/%ifdef/#ifdef/" "$f"
@@ -44,7 +41,7 @@ done
 
 echo "STARTING BUILD"
 # make --silent -j$(nproc) > /dev/null
-make -j$(nproc)
+make -j 1
 make install DESTDIR=/Release/$INSTALL_DIR
 echo -e "\n\nBuild completed"
 
