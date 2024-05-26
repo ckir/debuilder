@@ -2,8 +2,7 @@
 set -e
 export DEBIAN_FRONTEND=noninteractive
 
-#LATEST_VERSION=$(curl -sL https://nodejs.org/download/release/latest/ | html2text | grep linux-x64.tar.gz | grep -oP 'node-v\K[0-9]+\.[0-9]+\.[0-9]+' | sed 's/-.*//')
-LATEST_VERSION=20.13.1
+LATEST_VERSION=$(curl -sL https://nodejs.org/download/release/latest/ | html2text | grep linux-x64.tar.gz | grep -oP 'node-v\K[0-9]+\.[0-9]+\.[0-9]+' | sed 's/-.*//')
 echo "NodeJS latest available version found is: $LATEST_VERSION"
 INSTALL_DIR="nodejs_$LATEST_VERSION-1_i386"
 PACKAGE_NAME="$INSTALL_DIR.deb"
